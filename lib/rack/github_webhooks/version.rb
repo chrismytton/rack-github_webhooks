@@ -1,5 +1,5 @@
 module Rack
-  module GithubWebhooks
+  class GithubWebhooks
     VERSION = '0.1.0'
   end
 end
