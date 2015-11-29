@@ -26,6 +26,7 @@ module Rack
     # Taken from https://developer.github.com/webhooks/securing/
     def signature_valid?
       return true unless secret
+      return false unless request.env['HTTP_X_HUB_SIGNATURE']
       Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
     end
 
