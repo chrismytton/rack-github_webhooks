@@ -1,8 +1,6 @@
-# Rack::GithubWebhooks
+# Rack::GithubWebhooks [![Build Status](https://travis-ci.org/chrismytton/rack-github_webhooks.svg?branch=master)](https://travis-ci.org/chrismytton/rack-github_webhooks)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rack/github_webhooks`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Rack middleware for validating GitHub webhooks.
 
 ## Installation
 
@@ -22,7 +20,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Use it in your `config.ru` file, in your Sinatra app or in Rails' `config/routes.rb` file as you would any other Rack middleware. You need to provide a `secret` option which is the webhook secret you supplied when creating your GitHub webhook.
+
+```ruby
+require 'rack/github_webhooks'
+
+use Rack::GithubWebhooks, secret: 's3cret'
+```
 
 ## Development
 
@@ -32,10 +36,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rack-github_webhooks.
+Bug reports and pull requests are welcome on GitHub at https://github.com/chrismytton/rack-github_webhooks.
 
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
