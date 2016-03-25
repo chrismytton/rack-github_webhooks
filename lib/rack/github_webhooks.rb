@@ -34,6 +34,12 @@ module Rack
         env['rack.input'].read
       )
       return [400, {}, ["Signatures didn't match!"]] unless signature.valid?
+
+      begin
+        env['rack.input'].rewind if env['rack.input'].respond_to?(:rewind)
+      rescue Errno::ESPIPE
+      end
+
       @app.call(env)
     end
   end
