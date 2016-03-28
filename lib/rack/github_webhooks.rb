@@ -10,8 +10,7 @@ module Rack
       def initialize(secret, hub_signature, payload_body)
         @secret = secret
         @hub_signature = hub_signature
-        @signature = 'sha1=' +
-                     OpenSSL::HMAC.hexdigest(HMAC_DIGEST, secret, payload_body)
+        @signature = "sha1=#{OpenSSL::HMAC.hexdigest(HMAC_DIGEST, secret, payload_body)}"
       end
 
       def valid?
