@@ -44,4 +44,10 @@ class RackGithubWebhooksTest < Minitest::Test
     assert_equal 400, last_response.status
     assert_equal "Signatures didn't match!", last_response.body
   end
+
+  def test_post_body
+    body = '{content: "text"}'
+    post '/', body, 'HTTP_X_HUB_SIGNATURE' => body_signature(body)
+    assert_equal body, last_request.body.read
+  end
 end
