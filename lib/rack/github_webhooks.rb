@@ -27,7 +27,7 @@ module Rack
     end
 
     def call(env)
-      env['rack.input'].rewind
+      rewind_body(env)
       signature = Signature.new(
         @secret,
         env['HTTP_X_HUB_SIGNATURE'],
@@ -35,12 +35,15 @@ module Rack
       )
       return [400, {}, ["Signatures didn't match!"]] unless signature.valid?
 
-      begin
-        env['rack.input'].rewind if env['rack.input'].respond_to?(:rewind)
-      rescue Errno::ESPIPE
-      end
-
+      rewind_body(env)
       @app.call(env)
+    end
+
+    private
+
+    def rewind_body(env)
+      env['rack.input'].rewind if env['rack.input'].respond_to?(:rewind)
+    rescue Errno::ESPIPE
     end
   end
 end
