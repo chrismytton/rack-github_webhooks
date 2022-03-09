@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.5.0] - 2022-03-09
+
+### Changed
+
+- Validate using SHA256 instead of SHA1 #3
+
 ## [0.4.0] - 2016-03-25
 
 ### Fixed
@@ -29,3 +35,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.2.0]: https://github.com/chrismytton/rack-github_webhooks/compare/v0.1.0...v0.2.0
 [0.3.0]: https://github.com/chrismytton/rack-github_webhooks/compare/v0.2.0...v0.3.0
 [0.4.0]: https://github.com/chrismytton/rack-github_webhooks/compare/v0.3.0...v0.4.0
+[0.5.0]: https://github.com/chrismytton/rack-github_webhooks/compare/v0.4.0...v0.5.0
