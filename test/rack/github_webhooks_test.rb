@@ -1,12 +1,12 @@
 require 'test_helper'
 
 class RackGithubWebhooksTest < Minitest::Test
-  HMAC_DIGEST = OpenSSL::Digest.new('sha1')
+  HMAC_DIGEST = OpenSSL::Digest.new('sha256')
 
   include Rack::Test::Methods
 
   def body_signature(body)
-    'sha1=' + OpenSSL::HMAC.hexdigest(
+    'sha256=' + OpenSSL::HMAC.hexdigest(
       HMAC_DIGEST,
       's3cret',
       body
@@ -27,14 +27,14 @@ class RackGithubWebhooksTest < Minitest::Test
   def test_invalid_signature
     post '/',
       '{}',
-      'HTTP_X_HUB_SIGNATURE' => 'sha1=invalid'
+      'HTTP_X_HUB_SIGNATURE_256' => 'sha256=invalid'
     assert_equal 400, last_response.status
     assert_equal "Signatures didn't match!", last_response.body
   end
 
   def test_valid_signature
     body = '{}'
-    post '/', body, 'HTTP_X_HUB_SIGNATURE' => body_signature(body)
+    post '/', body, 'HTTP_X_HUB_SIGNATURE_256' => body_signature(body)
     assert_equal 200, last_response.status
     assert_equal 'ok', last_response.body
   end
@@ -47,7 +47,7 @@ class RackGithubWebhooksTest < Minitest::Test
 
   def test_post_body
     body = '{content: "text"}'
-    post '/', body, 'HTTP_X_HUB_SIGNATURE' => body_signature(body)
+    post '/', body, 'HTTP_X_HUB_SIGNATURE_256' => body_signature(body)
     assert_equal body, last_request.body.read
   end
 end

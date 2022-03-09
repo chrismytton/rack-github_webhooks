@@ -5,12 +5,12 @@ require 'json'
 module Rack
   class GithubWebhooks
     class Signature
-      HMAC_DIGEST = OpenSSL::Digest.new('sha1')
+      HMAC_DIGEST = OpenSSL::Digest.new('sha256')
 
       def initialize(secret, hub_signature, payload_body)
         @secret = secret
         @hub_signature = hub_signature
-        @signature = "sha1=#{OpenSSL::HMAC.hexdigest(HMAC_DIGEST, secret, payload_body)}"
+        @signature = "sha256=#{OpenSSL::HMAC.hexdigest(HMAC_DIGEST, secret, payload_body)}"
       end
 
       def valid?
@@ -29,7 +29,7 @@ module Rack
       rewind_body(env)
       signature = Signature.new(
         @secret,
-        env['HTTP_X_HUB_SIGNATURE'],
+        env['HTTP_X_HUB_SIGNATURE_256'],
         env['rack.input'].read
       )
       return [400, {}, ["Signatures didn't match!"]] unless signature.valid?
